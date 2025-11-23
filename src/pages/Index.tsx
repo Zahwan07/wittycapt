@@ -52,36 +52,55 @@ const Index = () => {
           body: { image: base64Image },
         });
 
+        // Handle network / function level errors
         if (error) {
-          // Check for specific error types in the response
-          if (data?.error) {
-            if (data.error.includes("429") || data.error.includes("rate_limited")) {
-              toast.error("Terlalu banyak request! Tunggu beberapa saat ya, lalu coba lagi. 🙏");
-              throw new Error("Rate limited");
-            }
-            if (data.error.includes("402") || data.error.includes("payment required")) {
-              toast.error("AI usage limit tercapai. Silakan upgrade untuk penggunaan lebih banyak.");
-              throw new Error("Payment required");
-            }
+          const anyError: any = error as any;
+          const msg: string = anyError?.message || "Terjadi kesalahan";
+          const status: number | undefined = anyError?.status;
+
+          if (status === 429 || msg.includes("429") || msg.toLowerCase().includes("rate limit")) {
+            toast.error(
+              "Server lagi ramai banget. Coba lagi dalam beberapa detik ya, atau kirim foto lain dulu."
+            );
+            return;
           }
-          throw error;
+
+          if (status === 402 || msg.includes("402") || msg.toLowerCase().includes("payment")) {
+            toast.error("Batas penggunaan AI sudah tercapai. Silakan upgrade paket untuk lanjut.");
+            return;
+          }
+
+          console.error("Supabase function error:", error);
+          toast.error("Gagal generate caption. Coba lagi sebentar lagi ya!");
+          return;
         }
 
-        if (!data?.captions) {
-          throw new Error("No captions returned");
+        // Handle soft error payloads returned as 200
+        if (data && (data as any).status === 429) {
+          toast.error(
+            "Server AI lagi penuh. Tunggu sebentar lalu klik lagi tombol Generate, ya 🙏"
+          );
+          return;
         }
 
-        setCaptions(data.captions);
+        if (data && (data as any).status === 402) {
+          toast.error("Batas pemakaian AI sudah habis. Upgrade akun untuk pakai lebih banyak.");
+          return;
+        }
+
+        if (!data || !(data as any).captions) {
+          console.error("Unexpected AI response:", data);
+          toast.error("AI tidak mengirim caption. Coba ulangi sekali lagi.");
+          return;
+        }
+
+        setCaptions((data as any).captions);
         toast.success("Caption berhasil dibuat! ✨");
       };
       reader.readAsDataURL(image);
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error:", error);
-      
-      // Show user-friendly error message if not already shown
-      if (!error.message?.includes("Rate limited") && !error.message?.includes("Payment required")) {
-        toast.error("Gagal generate caption. Coba lagi dalam beberapa saat ya!");
-      }
+      toast.error("Terjadi kesalahan tak terduga. Coba lagi nanti ya.");
     } finally {
       setIsGenerating(false);
     }
