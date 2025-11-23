@@ -124,7 +124,7 @@ const Index = () => {
             </div>
             <div>
               <h1 className="text-2xl font-bold bg-gradient-warm bg-clip-text text-transparent">
-                AI Caption Maker
+                WittyCapt
               </h1>
               <p className="text-sm text-muted-foreground">
                 Generate 10 caption otomatis hanya dari foto produk
