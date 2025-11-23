@@ -94,6 +94,34 @@ RULES:
     if (!response.ok) {
       const errorText = await response.text();
       console.error("AI Gateway error:", response.status, errorText);
+      
+      // Return specific error messages for rate limiting and payment issues
+      if (response.status === 429) {
+        return new Response(
+          JSON.stringify({
+            error: "Rate limit exceeded. Too many users are using the free API. Please try again in a few moments or upgrade for higher limits.",
+            status: 429
+          }),
+          {
+            status: 200, // Return 200 so the frontend can parse the error
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          }
+        );
+      }
+      
+      if (response.status === 402) {
+        return new Response(
+          JSON.stringify({
+            error: "Payment required. AI usage limit reached. Please add credits to continue.",
+            status: 402
+          }),
+          {
+            status: 200, // Return 200 so the frontend can parse the error
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          }
+        );
+      }
+      
       throw new Error(`AI Gateway error: ${response.status}`);
     }
 
