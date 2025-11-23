@@ -52,15 +52,36 @@ const Index = () => {
           body: { image: base64Image },
         });
 
-        if (error) throw error;
+        if (error) {
+          // Check for specific error types in the response
+          if (data?.error) {
+            if (data.error.includes("429") || data.error.includes("rate_limited")) {
+              toast.error("Terlalu banyak request! Tunggu beberapa saat ya, lalu coba lagi. 🙏");
+              throw new Error("Rate limited");
+            }
+            if (data.error.includes("402") || data.error.includes("payment required")) {
+              toast.error("AI usage limit tercapai. Silakan upgrade untuk penggunaan lebih banyak.");
+              throw new Error("Payment required");
+            }
+          }
+          throw error;
+        }
+
+        if (!data?.captions) {
+          throw new Error("No captions returned");
+        }
 
         setCaptions(data.captions);
-        toast.success("Caption berhasil dibuat!");
+        toast.success("Caption berhasil dibuat! ✨");
       };
       reader.readAsDataURL(image);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error:", error);
-      toast.error("Gagal generate caption. Coba lagi ya!");
+      
+      // Show user-friendly error message if not already shown
+      if (!error.message?.includes("Rate limited") && !error.message?.includes("Payment required")) {
+        toast.error("Gagal generate caption. Coba lagi dalam beberapa saat ya!");
+      }
     } finally {
       setIsGenerating(false);
     }
