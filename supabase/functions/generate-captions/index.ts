@@ -66,7 +66,7 @@ OUTPUT FORMAT JSON:
 
 RULES:
 - Setiap caption HARUS beda tone dan pendekatan
-- Maksimal 3-4 kalimat per caption
+- Maksimal 10-50 kalimat per caption
 - Hindari repetisi kata/kalimat antar caption
 - Gunakan emoji dengan bijak (jangan berlebihan)
 - Hanya caption e-commerce ready yang pakai hashtag

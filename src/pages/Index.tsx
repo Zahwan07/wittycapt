@@ -4,6 +4,10 @@ import { Card } from "@/components/ui/card";
 import { Upload, Sparkles, Copy, Check } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { set } from "date-fns";
+import Home from "./home";
+import Navbar from "../components/navbar";
+
 
 interface Caption {
   tone: string;
@@ -57,7 +61,8 @@ const Index = () => {
           const anyError: any = error as any;
           const msg: string = anyError?.message || "Terjadi kesalahan";
           const status: number | undefined = anyError?.status;
-
+          setIsGenerating(false);
+          return;
           if (status === 429 || msg.includes("429") || msg.toLowerCase().includes("rate limit")) {
             toast.error(
               "Server lagi ramai banget. Coba lagi dalam beberapa detik ya, atau kirim foto lain dulu."
@@ -91,17 +96,18 @@ const Index = () => {
         if (!data || !(data as any).captions) {
           console.error("Unexpected AI response:", data);
           toast.error("AI tidak mengirim caption. Coba ulangi sekali lagi.");
+          setIsGenerating(false);
           return;
         }
 
         setCaptions((data as any).captions);
         toast.success("Caption berhasil dibuat! ✨");
+        setIsGenerating(false);
       };
       reader.readAsDataURL(image);
     } catch (error) {
       console.error("Error:", error);
       toast.error("Terjadi kesalahan tak terduga. Coba lagi nanti ya.");
-    } finally {
       setIsGenerating(false);
     }
   };
@@ -115,28 +121,12 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background">
-      {/* Header */}
-      <header className="border-b border-border/50 backdrop-blur-sm bg-background/80">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-xl bg-gradient-warm">
-              <Sparkles className="h-6 w-6 text-white" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold bg-gradient-warm bg-clip-text text-transparent">
-                WittyCapt
-              </h1>
-              <p className="text-sm text-muted-foreground">
-                Generate 10 caption otomatis hanya dari foto produk
-              </p>
-            </div>
-          </div>
-        </div>
-      </header>
+      
+      <Navbar />
 
       <main className="container mx-auto px-4 py-12 max-w-5xl">
         {/* Upload Section */}
-        <Card className="p-8 mb-8 shadow-card border-border/50 bg-gradient-hero">
+        <Card className="p-5 mb-8 shadow-card border-border/50 bg-gradient-hero">
           <div className="text-center space-y-6">
             {!imagePreview ? (
               <label className="cursor-pointer">
@@ -180,7 +170,7 @@ const Index = () => {
                   <Button
                     onClick={generateCaptions}
                     disabled={isGenerating}
-                    className="bg-gradient-warm hover:opacity-90 transition-opacity shadow-glow"
+                    className="bg-gradient-warm hover:opacity-70 transition-opacity shadow-glow"
                     size="lg"
                   >
                     {isGenerating ? (
@@ -245,6 +235,9 @@ const Index = () => {
           </div>
         )}
       </main>
+
+      
+
     </div>
   );
 };
