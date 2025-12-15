@@ -6,40 +6,40 @@ import Navbar from "@/components/navbar";
 const Home = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/40">
-        <Navbar />
+      <Navbar />
       {/* Section Hero */}
       <section className="text-center py-24 px-6 justify-center items-center bg-no-repeat bg-left bg-contain">
-    
-    <img
-    src="/womanbg.svg"
-    className="absolute left-2500 top-1/2 -translate-y-1/2 w-[300px] opacity-100 pointer-events-none"
-    alt=""/>
 
-    <div className="p-2 rounded-xl">
-    <img 
-      src="/YesCapt.svg"
-      alt="Logo" 
-      className="w-32 mx-auto"/>
-    </div>
+        <img
+          src="/womanbg.svg"
+          className="absolute left-2500 top-1/2 -translate-y-1/2 w-[300px] opacity-100 pointer-events-none"
+          alt="" />
 
-  <h1 className="text-4xl md:text-5xl font-bold mb-5 bg-gradient-warm bg-clip-text text-transparent inline-block leading-[1.3] pt-1 pb-2 overflow-visible">
-    Selamat Datang di WittyCapt!
-  </h1>
+        <div className="p-2 rounded-xl">
+          <img
+            src="/YesCapt.svg"
+            alt="Logo"
+            className="w-32 mx-auto" />
+        </div>
 
-  <p className="text-muted-foreground max-w-xl mx-auto mb-10 text-lg bg-none">
-    Buat caption otomatis hanya dari foto produk. Cepat, mudah, dan hasilnya estetik ✨
-  </p>
+        <h1 className="text-4xl md:text-5xl font-bold mb-5 bg-gradient-warm bg-clip-text text-transparent inline-block leading-[1.3] pt-1 pb-2 overflow-visible">
+          Selamat Datang di WittyCapt!
+        </h1>
 
-  <div className="flex gap-4 justify-center">
-    <Button asChild size="lg" className="bg-gradient-warm shadow-glow hover:opacity-80">
-      <Link to="/">Mulai Generate Caption</Link>
-    </Button>
+        <p className="text-muted-foreground max-w-xl mx-auto mb-10 text-lg bg-none">
+          Buat caption otomatis hanya dari foto produk. Cepat, mudah, dan hasilnya estetik ✨
+        </p>
 
-    <Button asChild variant="outline" size="lg">
-      <Link to="/about">Tentang Kami</Link>
-    </Button>
-  </div>
-</section>
+        <div className="flex gap-4 justify-center">
+          <Button asChild size="lg" className="bg-gradient-warm shadow-glow hover:opacity-80">
+            <Link to="/">Mulai Generate Caption</Link>
+          </Button>
+
+          <Button asChild variant="outline" size="lg">
+            <Link to="/architecture">Lihat Arsitektur</Link>
+          </Button>
+        </div>
+      </section>
 
 
       {/* Section Fitur */}

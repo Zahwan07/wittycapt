@@ -39,37 +39,42 @@ serve(async (req) => {
 
 TUGAS:
 1. Analisis foto produk dengan detail (jenis produk, warna, mood, style, branding style)
-2. Generate 10 caption berbeda dengan 10 tone berbeda
+2. Generate 5 caption TERBAIK dengan ranking berdasarkan kualitas
 3. Setiap caption harus catchy, pendek, natural bahasa Indonesia (tidak formal)
-4. Sesuaikan CTA dengan tone (DM sekarang, Order via WhatsApp, Cek link di bio, Tersedia COD)
+4. Top 3 caption ditandai sebagai "recommended"
 
-10 TONE YANG HARUS ADA (urutan ini):
-1. Hard-selling (langsung jualan, tegas, persuasif)
-2. Soft-selling (halus, subtle, tidak pushy)
-3. Storytelling (cerita pendek menarik)
-4. Gen Z / Playful (fun, casual, bahasa gaul)
-5. Professional (formal tapi tetap friendly)
-6. Luxury / Premium (mewah, eksklusif, high-end)
-7. Minimalist (simple, clean, to the point)
-8. Humor (lucu, jenaka, bikin senyum)
-9. Lifestyle (aspirational, relate ke gaya hidup)
-10. E-commerce Ready (lengkap dengan hashtag dan benefit)
+TONE YANG TERSEDIA (pilih yang paling cocok untuk produk):
+- Hard-selling (langsung jualan, tegas, persuasif)
+- Soft-selling (halus, subtle, tidak pushy)
+- Storytelling (cerita pendek menarik)
+- Gen Z / Playful (fun, casual, bahasa gaul)
+- Professional (formal tapi tetap friendly)
+- Luxury / Premium (mewah, eksklusif, high-end)
+- Minimalist (simple, clean, to the point)
+- Humor (lucu, jenaka, bikin senyum)
+- Lifestyle (aspirational, relate ke gaya hidup)
+- E-commerce Ready (lengkap dengan hashtag dan benefit)
 
 OUTPUT FORMAT JSON:
 {
   "captions": [
-    {"tone": "Hard-selling", "text": "caption text"},
-    {"tone": "Soft-selling", "text": "caption text"},
-    ...dst
+    {
+      "rank": 1,
+      "tone": "nama tone",
+      "text": "caption text",
+      "recommended": true
+    },
+    ... (total 5 caption)
   ]
 }
 
 RULES:
 - Setiap caption HARUS beda tone dan pendekatan
-- Maksimal 10-50 kalimat per caption
+- Maksimal 10-50 kata per caption
 - Hindari repetisi kata/kalimat antar caption
 - Gunakan emoji dengan bijak (jangan berlebihan)
-- Hanya caption e-commerce ready yang pakai hashtag
+- Top 3 caption (rank 1-3) harus ditandai recommended: true
+- Caption rank 4-5 ditandai recommended: false
 - Bahasa Indonesia natural, bukan formal/kaku`,
           },
           {
@@ -77,7 +82,7 @@ RULES:
             content: [
               {
                 type: "text",
-                text: "Analyze this product image and create 10 different captions for Indonesian UMKM social media. Make sure each caption has a clearly different tone and approach.",
+                text: "Analyze this product image and create 5 BEST captions for Indonesian UMKM social media. Rank them from best to good, and mark top 3 as recommended.",
               },
               {
                 type: "image_url",

@@ -9,11 +9,11 @@ const Navbar = () => {
         {/* Logo */}
         <Link to="/home" className="flex items-center gap-2">
           <div className="p-2 rounded-xl bg-gradient-warm shadow-glow">
-            <img 
-            src="/YesCapt.svg"
-            alt="Logo" 
-            className="h-5 w-5" />
-            </div>
+            <img
+              src="/YesCapt.svg"
+              alt="Logo"
+              className="h-5 w-5" />
+          </div>
 
           <span className="text-xl font-semibold bg-gradient-warm bg-clip-text text-transparent">
             Wittycapt
@@ -24,8 +24,7 @@ const Navbar = () => {
         <div className="flex items-center gap-6 font-medium">
           <Link to="/" className="hover:text-primary transition">Generate</Link>
           <Link to="/home" className="hover:text-primary transition">Home</Link>
-          <Link to="/about" className="hover:text-primary transition">About Us</Link>
-          <Link to="/contact" className="hover:text-primary transition">Contact</Link>
+          <Link to="/architecture" className="hover:text-primary transition">Arsitektur</Link>
         </div>
 
       </div>
